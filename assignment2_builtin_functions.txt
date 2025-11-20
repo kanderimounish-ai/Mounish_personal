@@ -1,0 +1,88 @@
+1. Identify if there are duplicates in Customer table. Don't use customer id to check the duplicates
+
+select first_name, last_name, email, address_id, count(*) as duplicate_count
+from sakila.customer
+group by first_name, last_name, email, address_id
+having count(*) > 1;
+
+2. Number of times letter 'a' is repeated in film descriptions
+
+select sum(length(description) - length(replace(description, 'a', ''))) 
+       as total_a_count
+from sakila.film;
+
+3. Number of times each vowel is repeated in film descriptions 
+
+select 
+    sum(length(description) - length(replace(description, 'a', ''))) as a_count,
+    sum(length(description) - length(replace(description, 'e', ''))) as e_count,
+    sum(length(description) - length(replace(description, 'i', ''))) as i_count,
+    sum(length(description) - length(replace(description, 'o', ''))) as o_count,
+    sum(length(description) - length(replace(description, 'u', ''))) as u_count
+from sakila.film;
+
+4. Display the payments made by each customer
+        1. Month wise
+
+select customer_id,
+       date_format(payment_date, '%Y-%m') as payment_month,
+       sum(amount) as total_month_payment
+from sakila.payment
+group by customer_id, payment_month;
+
+        2. Year wise
+
+select customer_id,
+       year(payment_date) as payment_year,
+       sum(amount) as total_year_payment
+from sakila.payment
+group by customer_id, payment_year;
+
+        3. Week wise
+
+select customer_id,
+       year(payment_date) as payment_year,
+       week(payment_date) as payment_week,
+       sum(amount) as total_week_payment
+from sakila.payment
+group by customer_id, payment_year, payment_week;
+
+5. Check if any given year is a leap year or not. You need not consider any table from sakila database. Write within the select query with hardcoded date
+
+select 
+    case 
+        when (year('2024-03-15') % 400 = 0) 
+              or (year('2024-03-15') % 4 = 0 and year('2024-03-15') % 100 <> 0)
+             then 'Leap Year'
+        else 'Not a Leap Year'
+    end as leap_year_result;
+
+6. Display number of days remaining in the current year from today.
+
+select datediff(concat(year(curdate()), '-12-31'), curdate()) 
+       as days_remaining_in_year;
+
+7. Display quarter number(Q1,Q2,Q3,Q4) for the payment dates from payment table. 
+
+select payment_id,
+       payment_date,
+       case 
+           when quarter(payment_date) = 1 then 'Q1'
+           when quarter(payment_date) = 2 then 'Q2'
+           when quarter(payment_date) = 3 then 'Q3'
+           else 'Q4'
+       end as payment_quarter
+from sakila.payment;
+
+8. Display the age in year, months, days based on your date of birth. 
+   For example: 21 years, 4 months, 12 days
+
+select 
+    timestampdiff(year, '1999-05-10', curdate()) as years,
+    timestampdiff(month, '1999-05-10', curdate()) 
+        % 12 as months,
+    timestampdiff(day, 
+        date_add('1999-05-10', interval 
+            timestampdiff(month, '1999-05-10', curdate()) month
+        ),
+        curdate()) as days;
