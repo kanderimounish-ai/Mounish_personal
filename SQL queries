@@ -1,0 +1,152 @@
+-- Create Database
+CREATE DATABASE movie_store;
+
+-- Create Table
+CREATE TABLE student (
+    student_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT
+);
+
+-- Insert Into Table
+INSERT INTO student (student_id, name, age)
+VALUES (1, 'John Doe', 22);
+
+-- Select All
+SELECT * FROM film;
+
+-- Select Specific Columns
+SELECT title, release_year FROM film;
+
+-- Alter Table
+ALTER TABLE student ADD email VARCHAR(100);
+ALTER TABLE student MODIFY age SMALLINT;
+ALTER TABLE student DROP COLUMN email;
+
+-- Unique & Not Null
+CREATE TABLE employee (
+    id INT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    name VARCHAR(50) NOT NULL
+);
+
+-- Primary Key
+CREATE TABLE city (
+    city_id INT PRIMARY KEY,
+    city VARCHAR(50)
+);
+
+-- Foreign Key
+ALTER TABLE customer
+ADD FOREIGN KEY (store_id) REFERENCES store(store_id);
+
+-- Check + Default
+CREATE TABLE product (
+    id INT PRIMARY KEY,
+    price DECIMAL(5,2) CHECK (price > 0),
+    status VARCHAR(10) DEFAULT 'ACTIVE'
+);
+
+-- Drop Table
+DROP TABLE customer_backup;
+
+-- Delete Rows
+DELETE FROM customer WHERE customer_id = 3;
+
+-- Truncate Table
+TRUNCATE TABLE customer;
+
+-- Count & Distinct Count
+SELECT COUNT(*) FROM film;
+SELECT COUNT(DISTINCT rating) FROM film;
+
+-- Limit
+SELECT * FROM film LIMIT 5;
+
+-- WHERE Filter
+SELECT * FROM customer WHERE first_name = 'JON';
+
+-- ORDER BY Sorting
+SELECT * FROM film ORDER BY rental_rate DESC;
+
+-- AND / OR / NOT
+SELECT * FROM film WHERE rating = 'PG' AND rental_rate > 2.99;
+SELECT * FROM film WHERE rating = 'PG' OR rating = 'G';
+SELECT * FROM film WHERE NOT (rating = 'R');
+
+-- LIKE
+SELECT * FROM customer WHERE first_name LIKE 'A%';
+
+-- NULL Check
+SELECT * FROM payment WHERE amount IS NULL;
+
+-- BETWEEN
+SELECT * FROM film WHERE rental_rate BETWEEN 2 AND 4;
+
+-- GROUP BY + HAVING
+SELECT rating, COUNT(*) AS film_count
+FROM film
+GROUP BY rating
+HAVING COUNT(*) > 150;
+
+-- Substring
+SELECT SUBSTRING(title, 1, 5) FROM film;
+
+-- Concat
+SELECT CONCAT(first_name, ' ', last_name) FROM customer;
+
+-- Length
+SELECT LENGTH(title) FROM film;
+
+-- Locate
+SELECT LOCATE('A', title) FROM film;
+
+-- Substring Index
+SELECT SUBSTRING_INDEX(title, ' ', 1) FROM film;
+
+-- Math Functions
+SELECT CEIL(rental_rate), FLOOR(rental_rate) FROM film;
+
+-- Date Difference
+SELECT DATEDIFF(return_date, rental_date) FROM rental;
+
+-- Cast
+SELECT CAST(rental_rate AS CHAR) FROM film;
+
+-- INNER JOIN
+SELECT f.title, c.name
+FROM film f
+INNER JOIN film_category fc ON f.film_id = fc.film_id
+INNER JOIN category c ON fc.category_id = c.category_id;
+
+-- LEFT JOIN
+SELECT f.title, i.inventory_id
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id;
+
+-- RIGHT JOIN
+SELECT f.title, i.inventory_id
+FROM film f
+RIGHT JOIN inventory i ON f.film_id = i.film_id;
+
+-- FULL OUTER JOIN (Simulated)
+SELECT * FROM A
+LEFT JOIN B ON A.id = B.id
+UNION
+SELECT * FROM A
+RIGHT JOIN B ON A.id = B.id;
+
+-- CROSS JOIN
+SELECT a.first_name, f.title
+FROM actor a
+CROSS JOIN film f;
+
+-- SELF JOIN
+SELECT f1.title, f2.title
+FROM film f1
+JOIN film f2 ON f1.length = f2.length;
+
+-- DISTINCT with JOIN
+SELECT DISTINCT c.name
+FROM category c
+JOIN film_category fc ON c.category_id = fc.category_id;
