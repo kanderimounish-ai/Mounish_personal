@@ -1,0 +1,117 @@
+                                                                                                                         
+
+1. select *
+from customer
+where first_name like 'j%' and active = 1;
+
+2. select *
+from film
+where upper(title) like '%action%' or upper(description) like '%war%';
+
+3. select *
+from customer
+where last_name <> 'smith' and first_name like '%a';
+
+4. select *
+from film
+where rental_rate > 3.0 and replacement_cost is not null;
+
+5. select store_id, count(*) as active_customers
+from customer
+where active = 1
+group by store_id;
+
+6. select distinct rating
+from film;
+
+7. select rental_duration,
+       count(*) as film_count,
+       avg(length) as avg_length
+from film
+group by rental_duration
+having avg(length) > 100;
+
+8. select date(payment_date) as pay_date,
+       count(*) as payments,
+       sum(amount) as total_amount
+from payment
+group by date(payment_date)
+having count(*) > 100
+order by pay_date;
+
+9. select *
+from customer
+where email is null or lower(email) like '%.org';
+
+10. select *
+from film
+where rating in ('pg', 'g')
+order by rental_rate desc, title;
+
+11. select length, count(*) as film_count
+from film
+where title like 't%'
+group by length
+having count(*) > 5
+order by film_count desc;
+
+12. select a.*, count(*) as film_count
+from actor a
+join film_actor fa using (actor_id)
+group by a.actor_id
+having count(*) > 10
+order by film_count desc, a.last_name, a.first_name;
+
+13. select *
+from film
+order by rental_rate desc, length desc
+limit 5;
+
+14. select c.*, count(r.rental_id) as total_rentals
+from customer c
+left join rental r on r.customer_id = c.customer_id
+group by c.customer_id
+order by total_rentals desc, c.last_name, c.first_name;
+
+15. select f.title
+from film f
+left join inventory i on i.film_id = f.film_id
+left join rental r on r.inventory_id = i.inventory_id
+group by f.film_id, f.title
+having count(r.rental_id) = 0;
+
+16. select s.*, sum(p.amount) as total_amount, count(p.payment_id) as payments
+from staff s
+left join payment p on p.staff_id = s.staff_id
+group by s.staff_id
+order by total_amount desc;
+
+17. select c.name as category, count(fc.film_id) as film_count
+from category c
+join film_category fc on fc.category_id = c.category_id
+group by c.category_id, c.name
+order by film_count desc, category;
+
+18. select c.*, sum(p.amount) as total_spent
+from customer c
+join payment p on p.customer_id = c.customer_id
+group by c.customer_id
+order by total_spent desc
+limit 3;
+
+19. select distinct f.*
+from film f
+join inventory i on i.film_id = f.film_id
+join rental r on r.inventory_id = i.inventory_id
+where month(r.rental_date) = 5
+  and f.rental_duration > 5;
+
+20. select c.name as category,
+       avg(f.rental_rate) as avg_rental_rate,
+       count(f.film_id) as film_count
+from category c
+join film_category fc on fc.category_id = c.category_id
+join film f on f.film_id = fc.film_id
+group by c.category_id, c.name
+having count(f.film_id) > 50
+order by avg_rental_rate desc;
