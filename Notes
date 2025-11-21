@@ -1,0 +1,206 @@
+What’s a Database?
+A database is an organized place where data is stored so you can easily access, manage, and update it.
+
+What’s a DBMS? (Database Management System)
+A DBMS is software that helps you create, store, retrieve, and manage data in a database.
+
+What’s SQL? (Structured Query Language)
+SQL is the language used to communicate with a database to store, read, and modify data.
+
+What is a Schema?
+A schema is the blueprint or structure of the database, describing tables and relationships.
+
+SQL Execution
+
+Order of Execution in SQL
+SQL runs in this order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT.
+
+SQL Command Types
+
+DDL (Data Definition Language)
+DDL commands create or change database structures (CREATE, ALTER, DROP).
+
+DML (Data Manipulation Language)
+DML commands insert, update, or delete data (INSERT, UPDATE, DELETE).
+
+DQL (Data Query Language)
+DQL retrieves data (SELECT).
+
+DCL (Data Control Language)
+DCL controls access to data (GRANT, REVOKE).
+
+TCL (Transaction Control Language)
+TCL manages transaction changes (COMMIT, ROLLBACK).
+
+Basic Commands
+
+CREATE DATABASE
+Used to make a new database.
+
+CREATE TABLE
+Used to define a new table with columns and data types.
+
+INSERT INTO
+Adds new rows of data into a table.
+
+SELECT
+Fetches data from a table.
+
+ALTER TABLE
+Modifies an existing table’s structure.
+
+Constraints
+
+NOT NULL
+Prevents a column from storing empty values.
+
+UNIQUE
+Ensures all values in a column are different.
+
+PRIMARY KEY
+Uniquely identifies each row in a table.
+
+FOREIGN KEY
+Creates a connection between two tables.
+
+CHECK
+Ensures values meet a specific condition.
+
+DEFAULT
+Sets a pre-defined value when none is provided.
+
+Delete Operations
+
+DROP
+Permanently removes a table or database.
+
+DELETE
+Removes specific rows from a table.
+
+TRUNCATE
+Removes all rows from a table faster than DELETE but keeps structure.
+
+Useful Operations
+
+COUNT
+Counts rows.
+
+DISTINCT COUNT
+Counts unique values.
+
+SELECT Specific Columns
+Retrieves only the columns you choose.
+
+LIMIT
+Restricts how many rows are returned.
+
+WHERE
+Filters rows based on conditions.
+
+ORDER BY
+Sorts results in ascending or descending order.
+
+Operators
+
+AND
+Requires all conditions to be true.
+
+OR
+Requires at least one condition to be true.
+
+NOT
+Excludes data that meets a condition.
+
+LIKE
+Searches for a pattern in text.
+
+NULL Value
+Represents missing or unknown data.
+
+BETWEEN
+Filters values within a range.
+
+Grouping
+
+GROUP BY
+Groups rows by values in a column (usually for aggregation).
+
+HAVING
+Filters groups after GROUP BY.
+
+Difference Between WHERE and HAVING
+WHERE filters rows before grouping; HAVING filters groups after grouping.
+
+String Functions
+
+'strings'
+Text values stored in a column.
+
+SUBSTRING
+Extracts part of a string.
+
+CONCAT
+Joins strings together.
+
+LENGTH
+Returns how long a string is.
+
+LOCATE + SUBSTRING
+Finds a word and extracts based on its position.
+
+SUBSTRING_INDEX
+Splits a string and returns part of it before or after a delimiter.
+
+Math + Date
+
+Math Functions
+Perform arithmetic calculations.
+
+DATEDIFF
+Returns difference between two dates.
+
+DATETIME
+Stores date and time together.
+
+CASTING
+Converts data from one type to another.
+
+Relationships
+
+1:1 Relationship
+One record connects to exactly one record in another table.
+
+1:Many Relationship
+One record connects to multiple records.
+
+Many:1 Relationship
+Many records connect to one record.
+
+Many:Many Relationship
+Records in both tables connect to multiple records, usually via a bridge table.
+
+Joins
+
+INNER JOIN
+Returns only matching records between tables.
+
+LEFT JOIN
+Returns all records from left table + matching from right.
+
+RIGHT JOIN
+Returns all from right table + matching from left.
+
+FULL OUTER JOIN
+Returns all records whether matched or not.
+
+Simulated FULL JOIN
+Achieved by UNION of LEFT + RIGHT joins.
+
+CROSS JOIN
+Returns every combination of rows (cartesian product).
+
+SELF JOIN
+Joins a table with itself.
+
+DISTINCT + JOINS
+Removes duplicate rows after joining tables.
