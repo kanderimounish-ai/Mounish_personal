@@ -204,3 +204,43 @@ Joins a table with itself.
 
 DISTINCT + JOINS
 Removes duplicate rows after joining tables.
+
+CTE (Common Table Expression)
+A CTE is a temporary, readable result set you create inside a query to simplify complex logic.
+WITH Clause (for CTEs)
+The WITH clause defines a CTE so you can use it like a temporary table in the following SELECT.
+Recursive CTE
+A recursive CTE repeatedly runs itself to process hierarchical or tree-like data.
+Advantages of CTE
+CTEs make queries easier to read, reuse, debug, and organize compared to big subqueries.
+
+Temporary Tables
+A temporary table is a table created for short-term use within your session and disappears automatically afterward.
+Local Temp Table
+A temp table that exists only for your session and is deleted when your connection closes.
+Global Temp Table
+A temp table that can be used by other sessions until all sessions stop using it.
+Advantages of Temp Tables
+Best when you need to store and reuse intermediate results across multiple queries.
+Difference: CTE vs Temp Table
+CTE is query-time temporary and not stored; a temp table is physically created and can be reused across steps.
+
+Views
+A view is a saved SQL SELECT query that acts like a virtual table you can read from anytime.
+Materialized View (if supported)
+A materialized view stores actual data from the query rather than running it every time.
+Advantages of Views
+Views simplify complex queries, hide sensitive columns, and make data access easier.
+Updatable Views
+Some views let you insert, update, or delete data directly if the underlying query meets certain rules.
+Difference: View vs Table
+A table stores real data; 
+a view only shows data using a stored SELECT query.
+Difference: View vs CTE
+A CTE works only inside one query; 
+a view is permanent and can be reused anytime.
+
+When to Use What? (Simple Guide)
+Use a CTE when you need a clean, readable subquery inside one big query.
+Use a Temp Table when you need to store results temporarily and reuse them multiple times.
+Use a View when you want to save a complex SELECT query for repeated use like a virtual table.
