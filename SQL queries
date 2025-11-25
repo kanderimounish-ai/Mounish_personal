@@ -150,3 +150,114 @@ JOIN film f2 ON f1.length = f2.length;
 SELECT DISTINCT c.name
 FROM category c
 JOIN film_category fc ON c.category_id = fc.category_id;
+
+1. CTE — Common Table Expressions
+
+-- Simple CTE
+WITH top_rated AS (
+    SELECT film_id, title, rating
+    FROM film
+    WHERE rating = 'PG'
+)
+SELECT * FROM top_rated;
+
+-- CTE with Aggregation
+WITH rental_count AS (
+    SELECT film_id, COUNT(*) AS total_rentals
+    FROM rental
+    JOIN inventory USING (inventory_id)
+    GROUP BY film_id
+)
+SELECT *
+FROM rental_count
+WHERE total_rentals > 50
+ORDER BY total_rentals DESC;
+
+-- Multiple CTEs
+WITH active_customers AS (
+    SELECT customer_id, first_name, last_name
+    FROM customer
+    WHERE active = 1
+),
+payments AS (
+    SELECT customer_id, SUM(amount) AS total_paid
+    FROM payment
+    GROUP BY customer_id
+)
+SELECT a.*, p.total_paid
+FROM active_customers a
+JOIN payments p USING (customer_id)
+ORDER BY p.total_paid DESC;
+
+
+2. Temporary Tables
+
+-- Create Temporary Table
+CREATE TEMPORARY TABLE temp_top_customers AS
+SELECT customer_id, SUM(amount) AS total_payment
+FROM payment
+GROUP BY customer_id
+ORDER BY total_payment DESC
+LIMIT 10;
+
+-- Query Temporary Table
+SELECT *
+FROM temp_top_customers;
+
+-- Insert into Temporary Table
+INSERT INTO temp_top_customers
+SELECT customer_id, SUM(amount)
+FROM payment
+GROUP BY customer_id
+LIMIT 5;
+
+-- Drop Temporary Table (optional)
+DROP TEMPORARY TABLE temp_top_customers;
+
+
+3. Views
+
+-- Create View
+CREATE VIEW active_customer_view AS
+SELECT customer_id, first_name, last_name, email
+FROM customer
+WHERE active = 1;
+
+-- Query View
+SELECT *
+FROM active_customer_view
+ORDER BY last_name;
+
+-- Update Through a View (if allowed)
+UPDATE active_customer_view
+SET email = 'newemail@example.com'
+WHERE customer_id = 5;
+
+-- Drop View
+DROP VIEW active_customer_view;
+
+-- View with Aggregation
+CREATE VIEW customer_payment_summary AS
+SELECT 
+    c.customer_id,
+    CONCAT(c.first_name, ' ', c.last_name) AS fullname,
+    SUM(p.amount) AS total_paid
+FROM customer c
+JOIN payment p USING (customer_id)
+GROUP BY c.customer_id;
+
+SELECT * FROM customer_payment_summary
+ORDER BY total_paid DESC;
+
+-- Complex View with JOINs
+CREATE VIEW film_category_view AS
+SELECT 
+    f.film_id,
+    f.title,
+    c.name AS category
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id;
+
+SELECT * FROM film_category_view LIMIT 20;
+
