@@ -227,7 +227,7 @@ CTE is query-time temporary and not stored; a temp table is physically created a
 
 Views
 A view is a saved SQL SELECT query that acts like a virtual table you can read from anytime.
-Materialized View (if supported)
+Materialized View
 A materialized view stores actual data from the query rather than running it every time.
 Advantages of Views
 Views simplify complex queries, hide sensitive columns, and make data access easier.
@@ -240,7 +240,45 @@ Difference: View vs CTE
 A CTE works only inside one query; 
 a view is permanent and can be reused anytime.
 
-When to Use What? (Simple Guide)
+When to Use What?
 Use a CTE when you need a clean, readable subquery inside one big query.
 Use a Temp Table when you need to store results temporarily and reuse them multiple times.
 Use a View when you want to save a complex SELECT query for repeated use like a virtual table.
+
+Stored Procedure
+A stored procedure is a saved SQL program you can run anytime to perform repeated database tasks automatically.
+
+Why Use Stored Procedures?
+They save time by reusing logic, reduce errors, and improve performance by running on the database server.
+
+Parameters in Stored Procedures
+Parameters let you pass values into a stored procedure so it can run dynamically.
+
+Output Parameters
+Output parameters return values back from the procedure after execution.
+
+Advantages of Stored Procedures
+They improve reusability, security, speed, and keep business logic inside the database.
+Difference Between Stored Procedure and Query
+A query runs once, while a stored procedure is saved and reused like a function.
+
+Natural Key
+A natural key is a real-world, meaningful value already present in the data used to uniquely identify a record.
+
+When Natural Keys Are Good
+They avoid extra columns when the real data (like email or SSN) already uniquely identifies rows.
+
+Problems With Natural Keys
+They can change, be long, contain personal info, or become duplicated over time.
+
+Surrogate Key
+A surrogate key is an artificial unique identifier (usually an auto-increment ID) created only for the database.
+When Surrogate Keys Are Good
+They never change, are simple, short, fast, and don’t depend on real-world data.
+
+Difference: Natural Key vs Surrogate Key
+A natural key comes from real data
+A surrogate key is a system-generated identifier.
+
+Why Surrogate Keys Are Common
+They simplify joins, avoid sensitive data exposure, and remain stable forever.
