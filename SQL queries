@@ -261,3 +261,108 @@ JOIN category c ON fc.category_id = c.category_id;
 
 SELECT * FROM film_category_view LIMIT 20;
 
+1. STORED PROCEDURES
+
+-- Simple Stored Procedure (no parameters)
+DELIMITER //
+CREATE PROCEDURE get_all_customers()
+BEGIN
+    SELECT customer_id, first_name, last_name
+    FROM customer;
+END //
+DELIMITER ;
+
+CALL get_all_customers();
+
+-- Stored Procedure with IN Parameter
+DELIMITER //
+CREATE PROCEDURE get_films_by_rating(IN rating_value VARCHAR(10))
+BEGIN
+    SELECT film_id, title, rating
+    FROM film
+    WHERE rating = rating_value;
+END //
+DELIMITER ;
+
+CALL get_films_by_rating('PG');
+
+-- Stored Procedure with OUT Parameter
+DELIMITER //
+CREATE PROCEDURE total_payments(OUT total_amount DECIMAL(10,2))
+BEGIN
+    SELECT SUM(amount) INTO total_amount
+    FROM payment;
+END //
+DELIMITER ;
+
+CALL total_payments(@x);
+SELECT @x;
+
+-- Stored Procedure with IN and OUT Parameters
+DELIMITER //
+CREATE PROCEDURE count_films_by_category(
+    IN category_name VARCHAR(50),
+    OUT film_count INT
+)
+BEGIN
+    SELECT COUNT(*)
+    INTO film_count
+    FROM film_category fc
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE c.name = category_name;
+END //
+DELIMITER ;
+
+CALL count_films_by_category('Action', @film_total);
+SELECT @film_total;
+
+
+2. NATURAL KEY
+-- A natural key is a column that already exists in the data and uniquely identifies a row
+-- Example: email, username, SSN, etc.
+
+-- Create Table With Natural Key
+CREATE TABLE users_natural_key (
+    email VARCHAR(100) PRIMARY KEY,
+    full_name VARCHAR(100),
+    created_at DATETIME
+);
+
+-- Insert using natural key
+INSERT INTO users_natural_key (email, full_name, created_at)
+VALUES ('john@example.com', 'John Doe', NOW());
+
+-- Select
+SELECT * FROM users_natural_key;
+
+3. SURROGATE KEY
+-- A surrogate key is an artificial key (like auto-increment ID)
+-- Not derived from real-world data
+
+-- Create Table With Surrogate Key
+CREATE TABLE users_surrogate_key (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100),
+    full_name VARCHAR(100),
+    created_at DATETIME
+);
+
+-- Insert (no need to specify the surrogate key)
+INSERT INTO users_surrogate_key (email, full_name, created_at)
+VALUES ('emma@example.com', 'Emma Watson', NOW());
+
+-- Select
+SELECT * FROM users_surrogate_key;
+
+NATURAL KEY VS SURROGATE KEY EXAMPLE (SAKILA STYLE)
+
+-- Natural Key Example in Sakila
+-- (unique but not artificial)
+SELECT customer_id, email
+FROM customer;
+
+-- Surrogate Key Example in Sakila
+-- (auto-increment artificial identifiers)
+SELECT film_id, title
+FROM film;
+
